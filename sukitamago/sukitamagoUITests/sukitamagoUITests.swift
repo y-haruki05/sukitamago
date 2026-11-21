@@ -5,7 +5,9 @@ final class sukitamagoUITests: XCTestCase {
     func testHomeNavigationAndTabs() {
         continueAfterFailure = false
         let app = XCUIApplication()
+        app.launchArguments = ["-resetOnboardingForUITests"]
         app.launch()
+        completeOnboarding(app)
         XCTAssertTrue(app.buttons["設定"].waitForExistence(timeout: 10))
         app.buttons["設定"].tap()
         XCTAssertTrue(app.alerts["設定は準備中です"].exists)

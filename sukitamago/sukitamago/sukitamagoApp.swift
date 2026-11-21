@@ -23,9 +23,19 @@ struct sukitamagoApp: App {
         }
     }()
 
+    init() {
+        #if DEBUG
+        // UI tests can start from a deterministic first-launch state; no release hook.
+        if ProcessInfo.processInfo.arguments.contains("-resetOnboardingForUITests") {
+            UserDefaults.standard.removeObject(forKey: OnboardingStorage.completed)
+            UserDefaults.standard.removeObject(forKey: OnboardingStorage.mood)
+        }
+        #endif
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppRootView()
         }
         .modelContainer(sharedModelContainer)
     }
