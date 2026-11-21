@@ -16,11 +16,11 @@ final class sukitamagoUITests: XCTestCase {
         let start = app.buttons["startExperience"]
         if !start.isHittable { app.swipeUp() }
         start.tap()
-        XCTAssertTrue(app.staticTexts["写真ミッションは準備中です"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.buttons["mission.start"].waitForExistence(timeout: 3))
         app.navigationBars.buttons.element(boundBy: 0).tap()
         app.swipeUp()
         app.buttons["recommendedExperience"].tap()
-        XCTAssertTrue(app.staticTexts["写真ミッションは準備中です"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.buttons["mission.start"].waitForExistence(timeout: 3))
         app.navigationBars.buttons.element(boundBy: 0).tap()
         for title in ["さがす", "たまご", "きろく"] {
             app.tabBars.buttons[title].tap()

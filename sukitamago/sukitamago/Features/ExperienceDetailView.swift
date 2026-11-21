@@ -2,21 +2,28 @@ import SwiftUI
 
 struct ExperienceDetailView: View {
     let experience: SmallExperience
+    var onReturnHome: () -> Void = { }
+    @State private var showsMission = false
+    @State private var returningHome = false
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 28) {
-                Text("はじめての小さな体験").font(.subheadline.weight(.semibold))
-                    .foregroundStyle(AppTheme.outline)
-                CameraIllustration().scaleEffect(1.3).padding(22)
+            VStack(spacing: 24) {
+                Text(experience.genre).font(.subheadline.weight(.semibold)).foregroundStyle(AppTheme.outline)
+                CameraIllustration().padding(16)
                 Text(experience.title).font(.title.bold()).accessibilityAddTraits(.isHeader)
-                Text(experience.introduction).font(.body).lineSpacing(6)
-                Label("写真ミッションは準備中です", systemImage: "leaf")
-                    .font(.subheadline.weight(.medium)).padding(20)
-                    .frame(maxWidth: .infinity)
-                    .background(AppTheme.subBackground, in: RoundedRectangle(cornerRadius: 22))
-                Text("撮影や保存は、これからできるようになります。\n小さな一歩を、楽しみに待っていてね。")
-                    .font(.footnote).foregroundStyle(AppTheme.secondaryText)
+                Text("いつもの景色の中から、ちょっといいなと思うものを探してみよう。")
+                    .font(.body).lineSpacing(6)
+                Text("空でも、花でも、好きな色でも。正解はないよ。")
+                    .foregroundStyle(AppTheme.secondaryText)
+                VStack(spacing: 12) {
+                    Label(experience.duration, systemImage: "clock")
+                    Label(experience.equipment, systemImage: "iphone")
+                }
+                .font(.subheadline).padding(20).frame(maxWidth: .infinity)
+                .background(AppTheme.subBackground, in: RoundedRectangle(cornerRadius: 22))
+                PrimaryButton(title: "体験をはじめる") { showsMission = true }
+                    .disabled(showsMission).accessibilityIdentifier("mission.start")
             }
             .multilineTextAlignment(.center)
             .padding(AppTheme.pagePadding).padding(.top, 24)
@@ -26,6 +33,15 @@ struct ExperienceDetailView: View {
         .navigationTitle("今日の小さな体験")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.visible, for: .navigationBar)
+        .fullScreenCover(isPresented: $showsMission, onDismiss: {
+            if returningHome { returningHome = false; onReturnHome() }
+        }) {
+            PhotoMissionView {
+                guard !returningHome else { return }
+                returningHome = true
+                showsMission = false
+            }
+        }
     }
 }
 
