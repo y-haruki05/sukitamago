@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct HomeView: View {
+    #if DEBUG
+    @AppStorage(OnboardingStorage.completed) private var onboardingCompleted = false
+    @AppStorage(OnboardingStorage.mood) private var startingMood = ""
+    #endif
     @State private var showsSettings = false
     @State private var showsExperience = false
     private let experience = SmallExperience.first
@@ -36,6 +40,12 @@ struct HomeView: View {
             }
             .alert("設定は準備中です", isPresented: $showsSettings) {
                 Button("とじる", role: .cancel) { }
+                #if DEBUG
+                Button("オンボーディングをリセット", role: .destructive) {
+                    startingMood = ""
+                    onboardingCompleted = false
+                }
+                #endif
             } message: { Text("これから少しずつ、使いやすく育てていきます。") }
         }
     }
