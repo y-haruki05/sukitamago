@@ -10,20 +10,29 @@ struct ExperienceDetailView: View {
         ScrollView {
             VStack(spacing: 24) {
                 Text(experience.genre).font(.subheadline.weight(.semibold)).foregroundStyle(AppTheme.outline)
-                CameraIllustration().padding(16)
+                MissionIllustration(category: experience.category).padding(16)
                 Text(experience.title).font(.title.bold()).accessibilityAddTraits(.isHeader)
-                Text("いつもの景色の中から、ちょっといいなと思うものを探してみよう。")
+                Text(experience.introduction)
                     .font(.body).lineSpacing(6)
-                Text("空でも、花でも、好きな色でも。正解はないよ。")
+                Text(experience.encouragement)
                     .foregroundStyle(AppTheme.secondaryText)
                 VStack(spacing: 12) {
                     Label(experience.duration, systemImage: "clock")
-                    Label(experience.equipment, systemImage: "iphone")
+                    Label(experience.equipment, systemImage: experience.category == .photo ? "iphone" : "bag")
                 }
                 .font(.subheadline).padding(20).frame(maxWidth: .infinity)
                 .background(AppTheme.subBackground, in: RoundedRectangle(cornerRadius: 22))
-                PrimaryButton(title: "体験をはじめる") { showsMission = true }
-                    .disabled(showsMission).accessibilityIdentifier("mission.start")
+                PrimaryButton(title: "体験をはじめる") {
+                    guard experience.canStart else { return }
+                    showsMission = true
+                }
+                    .disabled(!experience.canStart || showsMission)
+                    .opacity(experience.canStart ? 1 : 0.5).accessibilityIdentifier("mission.start")
+                if !experience.canStart {
+                    Text("この体験は準備中だよ。")
+                        .font(.subheadline).foregroundStyle(AppTheme.secondaryText)
+                        .accessibilityIdentifier("mission.unavailable")
+                }
             }
             .multilineTextAlignment(.center)
             .padding(AppTheme.pagePadding).padding(.top, 24)
@@ -36,10 +45,12 @@ struct ExperienceDetailView: View {
         .fullScreenCover(isPresented: $showsMission, onDismiss: {
             if returningHome { returningHome = false; onReturnHome() }
         }) {
-            PhotoMissionView(experience: experience) {
-                guard !returningHome else { return }
-                returningHome = true
-                showsMission = false
+            if experience.execution == .photo {
+                PhotoMissionView(experience: experience) {
+                    guard !returningHome else { return }
+                    returningHome = true
+                    showsMission = false
+                }
             }
         }
     }

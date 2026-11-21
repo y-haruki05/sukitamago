@@ -26,7 +26,10 @@ struct PhotoMissionView: View {
                     switch state.phase {
                     case .preview: preview
                     case .reflecting: ExperienceReflectionView(state: state)
-                    case .completed: completion
+                    case .completed:
+                        if let id = state.hatchedCharacterID {
+                            PhotoHatchingCelebration(characterID: id, onFinish: onFinish)
+                        } else { completion }
                     default: acquisition
                     }
                 }
@@ -148,7 +151,7 @@ struct PhotoMissionView: View {
 
     private var completion: some View {
         VStack(spacing: 24) {
-            EggCharacterView(expression: .happy)
+            EggCharacterView(expression: .happy, hatched: false)
             Text("小さな一歩、おめでとう！").font(.title2.bold()).accessibilityAddTraits(.isHeader)
             if let reflection = state.reflection {
                 Text(reflection.feeling.completionMessage).foregroundStyle(AppTheme.secondaryText)

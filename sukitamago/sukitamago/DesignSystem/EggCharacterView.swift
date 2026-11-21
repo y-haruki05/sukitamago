@@ -64,7 +64,7 @@ struct EggCharacterView: View {
     }
 
     @ViewBuilder private var character: some View {
-        if let mascot = UIImage(named: (hatched ?? savedHatched) ? "CatWelcome" : "Egg") {
+        if let mascot = UIImage(named: (hatched ?? savedHatched) ? "PhotoCat" : "Egg") {
             Image(uiImage: mascot).resizable().scaledToFit()
                 .frame(width: 190, height: 202)
                 .clipShape(RoundedRectangle(cornerRadius: 20))

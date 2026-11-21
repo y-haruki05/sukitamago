@@ -30,8 +30,8 @@ final class ExperienceHistoryUITests: XCTestCase {
         let finish = app.buttons["reflection.finish"]
         if !finish.isHittable { app.swipeUp() }
         finish.tap()
-        XCTAssertTrue(app.staticTexts["小さな一歩、おめでとう！"].waitForExistence(timeout: 10))
-        let home = app.buttons["mission.home"]
+        XCTAssertTrue(app.staticTexts["カメラねこが生まれたよ！"].waitForExistence(timeout: 10))
+        let home = app.buttons["mission.nextEgg"]
         if !home.isHittable { app.swipeUp() }
         home.tap()
         // The tab bar is already in the underlying hierarchy during cover dismissal.

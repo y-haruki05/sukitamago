@@ -18,8 +18,8 @@ struct ExperiencePersistence {
         return .standard
     }
 
-    static func make(inMemory: Bool = false, testID: String? = nil) throws -> Self {
-        let schema = Schema([Item.self, ExperienceRecord.self, EggHatchingState.self])
+    @MainActor static func make(inMemory: Bool = false, testID: String? = nil) throws -> Self {
+        let schema = Schema([Item.self, ExperienceRecord.self, EggHatchingState.self, HatchedCharacter.self])
         let support = URL.applicationSupportDirectory
         var root = inMemory ? URL.temporaryDirectory.appending(path: "SukitamagoPreview/\(UUID().uuidString)") : support
         #if DEBUG
@@ -38,7 +38,9 @@ struct ExperiencePersistence {
             // Keep the original default store location, including legacy Item data.
             configuration = ModelConfiguration(schema: schema)
         }
-        return Self(container: try ModelContainer(for: schema, configurations: configuration),
+        let container = try ModelContainer(for: schema, configurations: configuration)
+        try EggHatchingStore.prepare(in: container)
+        return Self(container: container,
                     photos: ExperiencePhotoStore(directory: root.appending(path: "ExperiencePhotos")))
     }
 }
