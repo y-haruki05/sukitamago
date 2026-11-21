@@ -1,6 +1,8 @@
 import SwiftUI
+import SwiftData
 
 struct AppRootView: View {
+    @Query private var hatchingStates: [EggHatchingState]
     @AppStorage(OnboardingStorage.completed) private var completed = false
     @AppStorage(OnboardingStorage.mood) private var mood = ""
 
@@ -16,6 +18,7 @@ struct AppRootView: View {
                 }
             }
         }
+        .environment(\.eggHasHatched, !hatchingStates.isEmpty)
         .tint(AppTheme.outline)
         .foregroundStyle(AppTheme.text)
     }

@@ -19,7 +19,7 @@ struct ExperiencePersistence {
     }
 
     static func make(inMemory: Bool = false, testID: String? = nil) throws -> Self {
-        let schema = Schema([Item.self, ExperienceRecord.self])
+        let schema = Schema([Item.self, ExperienceRecord.self, EggHatchingState.self])
         let support = URL.applicationSupportDirectory
         var root = inMemory ? URL.temporaryDirectory.appending(path: "SukitamagoPreview/\(UUID().uuidString)") : support
         #if DEBUG
