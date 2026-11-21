@@ -1,7 +1,7 @@
 import SwiftUI
 import AVFoundation
 
-/// One in-memory image is shared by preview and completion. No persistence side effects.
+/// The draft shares one image; completion is published only after durable saving.
 @MainActor @Observable
 final class PhotoMissionState {
     enum Phase: Hashable { case ready, requestingPermission, capturing, loading, preview, reflecting, completed }
@@ -13,6 +13,8 @@ final class PhotoMissionState {
     }
     private(set) var phase: Phase = .ready
     private(set) var photo: UIImage?
+    let sessionID = UUID()
+    private(set) var isSaving = false
     let experience: SmallExperience
     private(set) var selectedFeeling: ExperienceFeeling?
     private(set) var note = ""
@@ -21,27 +23,36 @@ final class PhotoMissionState {
 
     init(experience: SmallExperience = .first) { self.experience = experience }
 
-    var canFinishReflection: Bool { phase == .reflecting && photo != nil && selectedFeeling != nil }
+    var canFinishReflection: Bool { phase == .reflecting && photo != nil && selectedFeeling != nil && !isSaving }
 
     func selectFeeling(_ feeling: ExperienceFeeling) {
-        guard phase == .reflecting else { return }
+        guard phase == .reflecting, !isSaving else { return }
         selectedFeeling = feeling
     }
 
     func updateNote(_ value: String) {
-        guard phase == .reflecting else { return }
+        guard phase == .reflecting, !isSaving else { return }
         note = ExperienceReflection.limitedNote(value)
     }
 
     func backToPreview() {
-        guard phase == .reflecting, photo != nil else { return }
+        guard phase == .reflecting, !isSaving, photo != nil else { return }
         phase = .preview
     }
 
-    func finishReflection() {
-        guard canFinishReflection, let feeling = selectedFeeling else { return }
-        reflection = ExperienceReflection(feeling: feeling, note: note)
-        phase = .completed
+    func finishReflection(using store: ExperienceRecordStore) async {
+        guard canFinishReflection, let feeling = selectedFeeling, let photo else { return }
+        isSaving = true
+        defer { isSaving = false }
+        let result = ExperienceReflection(feeling: feeling, note: note)
+        await Task.yield()
+        do {
+            try store.save(id: sessionID, experience: experience, photo: photo, reflection: result)
+            reflection = result
+            phase = .completed
+        } catch {
+            notice = Notice(message: "記録を保存できませんでした。空き容量などを確認して、もう一度『振り返りを終える』を押してください。写真と回答はそのまま残っています。")
+        }
     }
 
     var isBusy: Bool { phase == .requestingPermission || phase == .capturing || phase == .loading }

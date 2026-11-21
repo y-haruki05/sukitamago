@@ -1,7 +1,10 @@
 import SwiftUI
+import SwiftData
 
 struct ExperienceReflectionView: View {
     @Bindable var state: PhotoMissionState
+    @Environment(\.modelContext) private var context
+    @Environment(\.experiencePhotos) private var photos
     @State private var isComposing = false
 
     var body: some View {
@@ -28,7 +31,7 @@ struct ExperienceReflectionView: View {
                 ZStack(alignment: .topLeading) {
                     ReflectionNoteEditor(text: Binding(get: { state.note }, set: { state.updateNote($0) }),
                                          isComposing: $isComposing)
-                        .frame(height: 150)
+                        .frame(height: 150).disabled(state.isSaving)
                     if state.note.isEmpty && !isComposing {
                         Text("空の色がきれいだった、など").font(.body)
                             .foregroundStyle(AppTheme.secondaryText).padding(.horizontal, 13).padding(.top, 12)
@@ -46,11 +49,14 @@ struct ExperienceReflectionView: View {
                         .font(.caption).foregroundStyle(AppTheme.secondaryText)
                 }
             }
-            PrimaryButton(title: "振り返りを終える") { state.finishReflection() }
+            if state.isSaving { ProgressView("記録を保存しています…") }
+            PrimaryButton(title: "振り返りを終える") {
+                Task { await state.finishReflection(using: ExperienceRecordStore(container: context.container, photos: photos)) }
+            }
                 .disabled(!state.canFinishReflection || isComposing)
                 .opacity(state.canFinishReflection && !isComposing ? 1 : 0.5)
                 .accessibilityIdentifier("reflection.finish")
-            Text("写真と回答は、この体験中だけ表示されます。保存はされません。")
+            Text("写真と回答は、この端末のアプリ内に保存します。写真ライブラリには追加しません。")
                 .font(.footnote).foregroundStyle(AppTheme.secondaryText)
         }
     }
@@ -77,6 +83,7 @@ struct ExperienceReflectionView: View {
             .contentShape(RoundedRectangle(cornerRadius: 22))
         }
         .buttonStyle(.plain)
+        .disabled(state.isSaving)
         .accessibilityLabel("\(feeling.title)。\(feeling.subtitle)")
         .accessibilityValue(selected ? "選択中" : "未選択")
         .accessibilityAddTraits(selected ? .isSelected : [])

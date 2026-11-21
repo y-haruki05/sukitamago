@@ -16,8 +16,8 @@ Scheme「sukitamago」とiPhone Simulatorを選択してRunしてください。
 - `Features/ExperienceDetailView.swift`：写真ミッション詳細、共通PlaceholderView
 - `ContentView.swift`：標準TabViewと4タブ
 
-体験の永続保存、成長ロジック、設定、探索、記録機能は未実装です。
-SwiftDataの既存テンプレートは保持しており、今回の画面はデータの読み書きを行いません。
+体験の保存・履歴閲覧はIssue #9で追加しました。成長ロジック、設定、探索は未実装です。
+SwiftDataの既存Itemモデルは互換性のため保持しています。
 キャラクターのExpressionは表示用で、将来の成長モデルから指定できます。
 
 ## 検証
@@ -72,7 +72,8 @@ PhotosPickerは選択された写真だけを受け取るため、ライブラ�
 端末でカメラ権限が拒否された場合は案内から設定を開けます。利用制限の場合も別の案内を表示します。
 
 写真はPhotoMissionState内のUIImageをプレビューと完了画面で共有します。
-SwiftData・ファイル・写真ライブラリには保存しません。ホームへ戻りフローが破棄されると解放されます。
+振り返り完了時にSwiftDataとアプリ専用ファイルへ保存します。写真ライブラリには追加しません。
+保存前にホームへ戻りフローが破棄されると下書きは解放されます。
 バックグラウンドへ移ると取得処理を中断し、遅れて届く結果を無視します。
 取得済みの写真はフローが生存している間は保持しますが、アプリ終了後の復元はありません。
 
@@ -104,10 +105,44 @@ Simulatorでは実機のカメラ撮影・権限ダイアログは検証でき�
 写真の撮り直し、ホームへ戻った後の新しい体験では前回の回答を引き継ぎません。
 
 確定結果は `state.reflection` から、関連するミッションは `state.experience`、同じ画像の参照は `state.photo` から取得できます。
-写真・回答ともこの体験中だけのメモリ保持で、SwiftData・ファイル・UserDefaultsへの保存は追加していません。
+保存前の写真・回答はメモリに保持し、Issue #9の保存処理が両方成功した時点で完了します。
 
 ExperienceReflectionTestsは未選択の制御、選択変更、空欄の感想、200文字（絵文字を含む）、空白除去、
 戻る／撮り直し／新しい体験の状態、完了メッセージを検証します。
 ReflectionNoteEditorTestsはUIKitの未確定文字列APIを使って変換中と確定後の制限を検証します。
 ExperienceReflectionUITestsは実際のPhotosPickerから振り返り・入力・戻る・完了・新しい体験を通して確認します。
 実際の日本語キーボードでの候補選択・音声入力等は、別途手動確認してください。
+
+
+## 体験記録・履歴（Issue #9）
+
+振り返りを終える → 写真と記録の保存 → 完了 → ホーム →「きろく」→ 詳細、の流れです。
+空の履歴からは「体験を探してみる」でホームに戻れます。記録は日時の降順、同日時はUUID文字列の昇順です。
+
+- `Persistence/ExperienceRecord.swift`：SwiftDataモデル。セッションUUIDを一意キーにし、ミッションID、タイトルのスナップショット、日時、気持ちのrawValue、任意の感想、写真の相対ファイル名を保存します。
+- `Persistence/ExperiencePhotoStore.swift`：Application Support/ExperiencePhotos/<UUID>.jpg。長辺2048px以下、向き補正、縦横比維持、JPEG品質0.82で保存します。DBと写真は端末／iCloudバックアップに含める方針です（クラウド同期機能は追加しません）。
+- `Persistence/ExperienceRecordStore.swift`：写真保存後に一覧と共通のmainContextでDBを保存（他の未保存編集があれば開始せずエラー）。失敗時はrollbackと写真削除を行い、下書きは維持します。同一セッションIDの再保存は既存記録を返すのと同等に扱い、追加しません。
+- `Persistence/ExperiencePersistence.swift`：既存ストアにモデルを登録。テスト用in-memory構成とDEBUG限定の分離した永続ストアに対応します。
+- `Features/History/`：LazyVStackの履歴、詳細、確認付き削除、写真の非同期縮小デコードと欠損時の代替表示です。
+
+削除は圧縮JPEGの一時バックアップをメモリに保持して写真を削除し、その後DBを保存します。
+写真削除失敗ならDBは変更せず、DB失敗ならrollbackして写真を復元します。復元自体の失敗もエラーとして通知します。
+ファイルとDBを跨ぐ完全な原子性はないため、操作中のOS強制終了等では欠損／孤立ファイルが残る可能性があります。
+欠損写真でも履歴表示・削除を継続できます。通常の保存失敗では作成ファイルを清掃し、完了には進みません。
+コンテナの初期化失敗時は記録を消さず、起動エラー画面を表示します。
+
+全UIテストはDEBUG限定 `-experienceTestStore <UUID>` を指定し、Application Support/UITests/<UUID>/以下の
+専用DBと写真フォルダ、および `sukitamago.UITests.<UUID>` の専用UserDefaultsを使用します。同じIDで再起動すると保存を検証でき、実ユーザーの記録は削除しません。
+ユニットテストはin-memory DBと一時写真フォルダを使用します。
+`ExperienceRecordStoreTests` が保存・復元・失敗・再試行・重複防止・削除・安定ソートを、
+`ExperienceHistoryUITests` が実際のPhotosPickerから保存、再起動、詳細、削除、空表示まで検証します。
+
+
+Issue #9の検証環境はXcode 16.2 / Swift 6.0.3（プロジェクト設定Swift 5）/ iPhone SE（第3世代）iOS 18.2です。
+新規の保存・削除テストと、既存のオンボーディング・写真・振り返り・ホームのテストを実行します。
+実機撮影、iOS 17実行、VoiceOver・Dynamic Typeの全設定での手動確認は別途必要です。
+
+Xcode 16.2でテスト先をUUID指定すると、同じUUID・OS・デバイス名の候補を2件表示する警告が出ます。
+`simctl list devices available` と `xcodebuild -showdestinations` では該当デバイスは1台です。
+プロジェクトのビルド設定変更によるものではなく、Xcode側の候補解決に由来すると判断しています。
+Simulatorの削除・初期化やビルド設定変更は行っていません。

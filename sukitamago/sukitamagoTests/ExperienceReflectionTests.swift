@@ -12,20 +12,20 @@ struct ExperienceReflectionTests {
         return state
     }
 
-    @Test func cannotFinishWithoutPhotoOrFeeling() {
+    @Test func cannotFinishWithoutPhotoOrFeeling() async throws {
         let empty = PhotoMissionState()
         empty.selectFeeling(.fun)
-        empty.finishReflection()
+        await empty.finishReflection(using: try testRecordStore())
         #expect(empty.phase == .ready)
         #expect(empty.reflection == nil)
         let state = session()
         #expect(state.selectedFeeling == nil)
         #expect(!state.canFinishReflection)
-        state.finishReflection()
+        await state.finishReflection(using: try testRecordStore())
         #expect(state.phase == .reflecting)
     }
 
-    @Test func singleSelectionAndOptionalNote() {
+    @Test func singleSelectionAndOptionalNote() async throws {
         let state = session()
         state.selectFeeling(.fun)
         #expect(state.selectedFeeling == .fun)
@@ -33,16 +33,16 @@ struct ExperienceReflectionTests {
         #expect(state.selectedFeeling == .notForMe)
         #expect(state.canFinishReflection)
         let image = state.photo
-        state.finishReflection()
+        await state.finishReflection(using: try testRecordStore())
         #expect(state.reflection == ExperienceReflection(feeling: .notForMe, note: ""))
         #expect(state.phase == .completed)
         #expect(state.photo === image)
         state.selectFeeling(.fun)
-        state.finishReflection()
+        await state.finishReflection(using: try testRecordStore())
         #expect(state.reflection?.feeling == .notForMe)
     }
 
-    @Test func notesLimitGraphemesAndTrimOnlyOnCompletion() {
+    @Test func notesLimitGraphemesAndTrimOnlyOnCompletion() async throws {
         let state = session()
         let emoji = "👨‍👩‍👧‍👦"
         state.updateNote(String(repeating: emoji, count: 201))
@@ -51,7 +51,7 @@ struct ExperienceReflectionTests {
         state.updateNote(" \n 空の色がきれいだった。 \n")
         #expect(state.note.hasPrefix(" "))
         state.selectFeeling(.neutral)
-        state.finishReflection()
+        await state.finishReflection(using: try testRecordStore())
         #expect(state.reflection?.note == "空の色がきれいだった。")
         #expect(ExperienceReflection(feeling: .fun, note: String(repeating: "あ", count: 201)).note.count == 200)
     }
