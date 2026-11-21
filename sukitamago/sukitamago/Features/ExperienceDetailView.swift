@@ -36,7 +36,7 @@ struct ExperienceDetailView: View {
         .fullScreenCover(isPresented: $showsMission, onDismiss: {
             if returningHome { returningHome = false; onReturnHome() }
         }) {
-            PhotoMissionView {
+            PhotoMissionView(experience: experience) {
                 guard !returningHome else { return }
                 returningHome = true
                 showsMission = false

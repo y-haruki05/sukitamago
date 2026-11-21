@@ -4,7 +4,7 @@ import AVFoundation
 /// One in-memory image is shared by preview and completion. No persistence side effects.
 @MainActor @Observable
 final class PhotoMissionState {
-    enum Phase: Hashable { case ready, requestingPermission, capturing, loading, preview, completed }
+    enum Phase: Hashable { case ready, requestingPermission, capturing, loading, preview, reflecting, completed }
     enum CameraDecision { case available, unavailable, denied, restricted }
     struct Notice: Identifiable {
         let id = UUID()
@@ -13,7 +13,36 @@ final class PhotoMissionState {
     }
     private(set) var phase: Phase = .ready
     private(set) var photo: UIImage?
+    let experience: SmallExperience
+    private(set) var selectedFeeling: ExperienceFeeling?
+    private(set) var note = ""
+    private(set) var reflection: ExperienceReflection?
     var notice: Notice?
+
+    init(experience: SmallExperience = .first) { self.experience = experience }
+
+    var canFinishReflection: Bool { phase == .reflecting && photo != nil && selectedFeeling != nil }
+
+    func selectFeeling(_ feeling: ExperienceFeeling) {
+        guard phase == .reflecting else { return }
+        selectedFeeling = feeling
+    }
+
+    func updateNote(_ value: String) {
+        guard phase == .reflecting else { return }
+        note = ExperienceReflection.limitedNote(value)
+    }
+
+    func backToPreview() {
+        guard phase == .reflecting, photo != nil else { return }
+        phase = .preview
+    }
+
+    func finishReflection() {
+        guard canFinishReflection, let feeling = selectedFeeling else { return }
+        reflection = ExperienceReflection(feeling: feeling, note: note)
+        phase = .completed
+    }
 
     var isBusy: Bool { phase == .requestingPermission || phase == .capturing || phase == .loading }
 
@@ -58,12 +87,15 @@ final class PhotoMissionState {
     func retake() {
         guard phase == .preview else { return }
         photo = nil
+        selectedFeeling = nil
+        note = ""
+        reflection = nil
         phase = .ready
     }
 
     func confirm() {
         guard phase == .preview, photo != nil else { return }
-        phase = .completed
+        phase = .reflecting
     }
 
     func interrupt() {

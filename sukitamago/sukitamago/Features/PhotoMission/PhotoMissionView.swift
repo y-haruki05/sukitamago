@@ -6,7 +6,7 @@ struct PhotoMissionView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openURL) private var openURL
-    @State private var state = PhotoMissionState()
+    @State private var state: PhotoMissionState
     @State private var showsCamera = false
     @State private var showsLibrary = false
     @State private var selectedItem: PhotosPickerItem?
@@ -14,12 +14,18 @@ struct PhotoMissionView: View {
     @State private var work: Task<Void, Never>?
     @State private var operationID = UUID()
 
+    init(experience: SmallExperience = .first, onFinish: @escaping () -> Void) {
+        self.onFinish = onFinish
+        _state = State(initialValue: PhotoMissionState(experience: experience))
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
                     switch state.phase {
                     case .preview: preview
+                    case .reflecting: ExperienceReflectionView(state: state)
                     case .completed: completion
                     default: acquisition
                     }
@@ -30,14 +36,21 @@ struct PhotoMissionView: View {
             }
             // A new step starts at the top rather than inheriting a scrolled preview.
             .id(state.phase)
+            .scrollDismissesKeyboard(.interactively)
             .background(AppTheme.background)
             .navigationTitle(state.phase == .completed ? "体験完了" : "あなたの小さな体験")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if state.phase != .completed {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button(state.phase == .preview ? "戻る" : "とじる") {
-                            if state.phase == .preview { state.retake() } else { dismiss() }
+                        Button(state.phase == .preview || state.phase == .reflecting ? "戻る" : "とじる") {
+                            if state.phase == .reflecting {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                                to: nil, from: nil, for: nil)
+                                state.backToPreview()
+                            }
+                            else if state.phase == .preview { state.retake() }
+                            else { dismiss() }
                         }.frame(minHeight: 44)
                     }
                 }
@@ -137,10 +150,20 @@ struct PhotoMissionView: View {
         VStack(spacing: 24) {
             EggCharacterView(expression: .happy)
             Text("小さな一歩、おめでとう！").font(.title2.bold()).accessibilityAddTraits(.isHeader)
-            Text("いつもの景色の中に、あなたの『好き』の種が見つかったかもしれないね。")
-                .foregroundStyle(AppTheme.secondaryText)
+            if let reflection = state.reflection {
+                Text(reflection.feeling.completionMessage).foregroundStyle(AppTheme.secondaryText)
+                Label(reflection.feeling.title, systemImage: "checkmark.circle")
+                    .font(.headline).accessibilityIdentifier("reflection.completedFeeling")
+                if !reflection.note.isEmpty {
+                    Text(reflection.note).font(.body).padding(18)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(AppTheme.subBackground, in: RoundedRectangle(cornerRadius: 18))
+                        .accessibilityIdentifier("reflection.completedNote")
+                }
+            }
             photo(maxHeight: 160)
-            temporaryNotice
+            Text("写真と回答は、この体験中だけ表示されます。保存はされません。")
+                .font(.footnote).foregroundStyle(AppTheme.secondaryText)
             PrimaryButton(title: "ホームに戻る", action: onFinish)
                 .accessibilityIdentifier("mission.home")
         }
