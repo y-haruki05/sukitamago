@@ -25,6 +25,15 @@ final class PhotoMissionUITests: XCTestCase {
         XCTAssertTrue(app.buttons["mission.confirm"].waitForExistence(timeout: 10))
         app.swipeUp()
         app.buttons["mission.confirm"].tap()
+        XCTAssertTrue(app.staticTexts["やってみて、どうだった？"].waitForExistence(timeout: 5))
+        app.swipeUp()
+        let finish = app.buttons["reflection.finish"]
+        XCTAssertFalse(finish.isEnabled)
+        let choice = app.buttons["reflection.feeling.neutral"]
+        if !choice.isHittable { app.swipeUp() }
+        choice.tap()
+        if !finish.isHittable { app.swipeUp() }
+        finish.tap()
         XCTAssertTrue(app.staticTexts["小さな一歩、おめでとう！"].waitForExistence(timeout: 5))
         capture(app, name: "体験完了")
         app.swipeUp()
@@ -35,7 +44,17 @@ final class PhotoMissionUITests: XCTestCase {
         XCTAssertTrue(app.buttons["mission.start"].waitForExistence(timeout: 5))
     }
 
-    @MainActor private func openMission(_ app: XCUIApplication) {
+    @MainActor private func capture(_ app: XCUIApplication, name: String) {
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = name
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
+}
+
+extension XCTestCase {
+    @MainActor func openMission(_ app: XCUIApplication) {
         let start = app.buttons["startExperience"]
         if !start.isHittable { app.swipeUp() }
         start.tap()
@@ -52,14 +71,7 @@ final class PhotoMissionUITests: XCTestCase {
         XCTAssertTrue(appeared, app.debugDescription)
     }
 
-    @MainActor private func capture(_ app: XCUIApplication, name: String) {
-        let attachment = XCTAttachment(screenshot: app.screenshot())
-        attachment.name = name
-        attachment.lifetime = .keepAlways
-        add(attachment)
-    }
-
-    @MainActor private func selectPhoto(_ app: XCUIApplication) {
+    @MainActor func selectPhoto(_ app: XCUIApplication) {
         let library = app.buttons["mission.library"]
         let ready = expectation(for: NSPredicate(format: "enabled == true AND hittable == true"), evaluatedWith: library)
         XCTAssertTrue(XCTWaiter.wait(for: [ready], timeout: 5) == .completed, app.debugDescription)

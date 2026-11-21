@@ -16,7 +16,7 @@ Scheme「sukitamago」とiPhone Simulatorを選択してRunしてください。
 - `Features/ExperienceDetailView.swift`：写真ミッション詳細、共通PlaceholderView
 - `ContentView.swift`：標準TabViewと4タブ
 
-体験の永続保存、振り返り、成長ロジック、設定、探索、記録機能は未実装です。
+体験の永続保存、成長ロジック、設定、探索、記録機能は未実装です。
 SwiftDataの既存テンプレートは保持しており、今回の画面はデータの読み書きを行いません。
 キャラクターのExpressionは表示用で、将来の成長モデルから指定できます。
 
@@ -85,3 +85,29 @@ xcrun simctl addmedia <SimulatorのUDID> /path/to/test-photo.png
 
 Simulatorでは実機のカメラ撮影・権限ダイアログは検証できません。
 実機の撮影・キャンセル・権限拒否／制限・設定からの復帰・撮影中のバックグラウンド移行は、別途実機で確認が必要です。
+
+
+## 体験の振り返り（Issue #7）
+
+写真プレビューの「この写真にする」で振り返りへ進みます。3つの気持ちから1つを選び、
+「振り返りを終える」で初めて体験完了になります。感想は任意です。
+どの気持ちにも同じお祝いを表示し、それぞれの気づきを肯定するメッセージを添えます。
+
+- `Features/Reflection/ExperienceReflection.swift`：安定したrawValueを持つExperienceFeelingと確定済みのExperienceReflection
+- `Features/Reflection/ExperienceReflectionView.swift`：気持ちカード、写真、任意の感想、完了操作
+- `Features/Reflection/ReflectionNoteEditor.swift`：UIKitの複数行入力。日本語変換中のmarkedTextRangeは切り詰めず、確定後に200文字までに制限
+- `PhotoMissionState`：ミッション・画像・回答の下書き・確定結果を同一セッションで保持
+
+写真がない状態や気持ちが未選択の状態では完了できません。感想はSwiftのCharacter単位（絵文字も1文字）で制限し、
+確定結果では前後の空白・改行を除去します。変換中は完了を無効にし、キーボード上の「キーボードを閉じる」でも変換確定できます。
+入力欄と完了ボタンはスクロールでき、前のプレビューへ戻っても回答は保持します。
+写真の撮り直し、ホームへ戻った後の新しい体験では前回の回答を引き継ぎません。
+
+確定結果は `state.reflection` から、関連するミッションは `state.experience`、同じ画像の参照は `state.photo` から取得できます。
+写真・回答ともこの体験中だけのメモリ保持で、SwiftData・ファイル・UserDefaultsへの保存は追加していません。
+
+ExperienceReflectionTestsは未選択の制御、選択変更、空欄の感想、200文字（絵文字を含む）、空白除去、
+戻る／撮り直し／新しい体験の状態、完了メッセージを検証します。
+ReflectionNoteEditorTestsはUIKitの未確定文字列APIを使って変換中と確定後の制限を検証します。
+ExperienceReflectionUITestsは実際のPhotosPickerから振り返り・入力・戻る・完了・新しい体験を通して確認します。
+実際の日本語キーボードでの候補選択・音声入力等は、別途手動確認してください。
