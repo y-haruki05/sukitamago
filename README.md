@@ -16,9 +16,9 @@ Scheme「sukitamago」とiPhone Simulatorを選択してRunしてください。
 - `Features/ExperienceDetailView.swift`：写真ミッション詳細、共通PlaceholderView
 - `ContentView.swift`：標準TabViewと4タブ
 
-体験の保存・履歴閲覧はIssue #9で追加しました。成長ロジック、設定、探索は未実装です。
+体験の保存・履歴閲覧はIssue #9、たまごの成長表示はIssue #11で追加しました。設定、探索は未実装です。
 SwiftDataの既存Itemモデルは互換性のため保持しています。
-キャラクターのExpressionは表示用で、将来の成長モデルから指定できます。
+キャラクターのExpressionはベクター描画の表示用です。現在の猫型素材では共通の表情を使います。
 
 ## 検証
 
@@ -146,3 +146,23 @@ Xcode 16.2でテスト先をUUID指定すると、同じUUID・OS・デバイス
 `simctl list devices available` と `xcodebuild -showdestinations` では該当デバイスは1台です。
 プロジェクトのビルド設定変更によるものではなく、Xcode側の候補解決に由来すると判断しています。
 Simulatorの削除・初期化やビルド設定変更は行っていません。
+
+
+## たまごの成長・孵化（Issue #11）
+
+未発見の間は0〜2件で「はじまり」、3件以上で「芽生え」として卵を表示します。
+体験回数や「楽しかった！」の回答だけでは孵化しません。「好きが見つかった！」の確認で
+「見つかった！」を選び、保存に成功した場合だけ猫へ孵化します。回数による孵化までの進捗は表示しません。
+
+- `EggGrowthCalculator`：現在の記録数と本人の確定状態から表示段階を算出。
+- `EggHatchingState`：孵化日時を持つ単一のSwiftDataモデル。既存記録と独立し、履歴削除でも保持。
+- `EggHatchingStore`：重複確認、保存、失敗時のrollback。保存失敗では孵化せず再試行可能。
+- `EggGrowthView`：確認ダイアログと保存成功後の揺れ→卵フェードアウト→猫フェードイン。
+  再描画・タブ切り替え・再起動では演出を再生せず、中断時も保存済み状態は維持します。
+- `EggCharacterView`：`images/egg.png` と既存 `images/cat_welcome.png` のコピーをアセット登録して使用。
+  元画像は変更せず、縦横比を保持します。Reduce Motionでは孵化演出を省略します。
+
+`EggGrowthTests` は回数のみでは未孵化、明示確定、二重孵化防止、保存失敗、履歴削除、
+既存スキーマからの追加移行とディスク再接続を検証します。
+`EggGrowthUITests` は回数による未孵化、確認キャンセル、明示孵化、再起動・履歴削除後の保持、
+ホームへの猫表示を検証します。DEBUG用の記録注入は既存の専用テストストアに限定しています。

@@ -24,6 +24,8 @@ struct sukitamagoApp: App {
             let defaults = try ExperiencePersistence.preferences(testID: testID)
             let persistence = try ExperiencePersistence.make(testID: testID)
             #if DEBUG
+            try GrowthUITestFixtures.seed(arguments: arguments, testID: testID,
+                                          persistence: persistence, defaults: defaults)
             // Never reset the real preferences when a test-store argument is absent.
             if testID != nil, arguments.contains("-resetOnboardingForUITests") {
                 defaults.removeObject(forKey: OnboardingStorage.completed)

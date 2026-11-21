@@ -20,6 +20,9 @@ struct EggShape: Shape {
 struct EggCharacterView: View {
     enum Expression { case calm, happy }
     var expression: Expression = .calm
+    var hatched: Bool? = nil
+    var sways = false
+    @Environment(\.eggHasHatched) private var savedHatched
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var delighted = false
     @State private var bouncing = false
@@ -44,7 +47,8 @@ struct EggCharacterView: View {
                 ZStack {
                     Ellipse().fill(AppTheme.ink.opacity(0.10))
                         .frame(width: 110, height: 14).offset(y: 91)
-                    eggFace
+                    character
+                        .rotationEffect(.degrees(!reduceMotion && sways ? wave * 1.5 : 0))
                         .scaleEffect(bouncing ? 1.045 : 1 + wave * 0.012)
                         .offset(y: bouncing ? -16 : wave * 4)
                 }
@@ -54,8 +58,19 @@ struct EggCharacterView: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("あなたの好きのたまご")
+        .accessibilityValue((hatched ?? savedHatched) ? "猫" : "卵")
         .accessibilityHint("ダブルタップすると、たまごが喜びます")
         .onDisappear { bounceTask?.cancel(); bouncing = false; delighted = false }
+    }
+
+    @ViewBuilder private var character: some View {
+        if let mascot = UIImage(named: (hatched ?? savedHatched) ? "CatWelcome" : "Egg") {
+            Image(uiImage: mascot).resizable().scaledToFit()
+                .frame(width: 190, height: 202)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+        } else {
+            eggFace
+        }
     }
 
     private var eggFace: some View {

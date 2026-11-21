@@ -121,14 +121,20 @@ struct ExperienceRecordStoreTests {
     @Test func missingPhotoAndStableNewestOrder() throws {
         let store = try testRecordStore()
         defer { try? FileManager.default.removeItem(at: store.photos.directory) }
-        let ids = [UUID(), UUID(), UUID()]
+        // Use fixed, reverse-inserted tie IDs. SortDescriptor uses natural string ordering,
+        // whereas Swift.sorted() is lexical; random numeric UUID prefixes can disagree.
+        let ids = [
+            UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
+            UUID(uuidString: "00000000-0000-0000-0000-000000000003")!,
+            UUID(uuidString: "00000000-0000-0000-0000-000000000002")!
+        ]
         for (index, id) in ids.enumerated() {
             try store.save(id: id, experience: .first, photo: image, reflection: .init(feeling: .fun, note: ""),
                            completedAt: Date(timeIntervalSince1970: index == 0 ? 1 : 2))
         }
         let sorted = try fetch(store)
         #expect(sorted.last?.id == ids[0])
-        #expect(Array(sorted.prefix(2)).map(\.sortID) == ids.dropFirst().map(\.uuidString).sorted())
+        #expect(Array(sorted.prefix(2)).map(\.id) == [ids[2], ids[1]])
         try store.photos.delete(ids[0].uuidString + ".jpg")
         #expect(store.photos.read(ids[0].uuidString + ".jpg", maxPixelSize: 100) == nil)
         try store.delete(id: ids[0])
