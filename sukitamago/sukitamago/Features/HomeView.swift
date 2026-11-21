@@ -36,7 +36,7 @@ struct HomeView: View {
             .background(AppTheme.background)
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(isPresented: $showsExperience) {
-                ExperienceDetailView(experience: experience)
+                ExperienceDetailView(experience: experience) { showsExperience = false }
             }
             .alert("設定は準備中です", isPresented: $showsSettings) {
                 Button("とじる", role: .cancel) { }
