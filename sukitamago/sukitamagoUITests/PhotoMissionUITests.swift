@@ -5,7 +5,7 @@ final class PhotoMissionUITests: XCTestCase {
     func testLibraryPreviewRetakeCompletionAndRetry() {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-resetOnboardingForUITests"]
+        app.launchArguments = ["-experienceTestStore", UUID().uuidString, "-resetOnboardingForUITests"]
         app.launch()
         completeOnboarding(app)
         openMission(app)

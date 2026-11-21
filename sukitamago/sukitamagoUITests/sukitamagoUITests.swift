@@ -5,7 +5,7 @@ final class sukitamagoUITests: XCTestCase {
     func testHomeNavigationAndTabs() {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-resetOnboardingForUITests"]
+        app.launchArguments = ["-experienceTestStore", UUID().uuidString, "-resetOnboardingForUITests"]
         app.launch()
         completeOnboarding(app)
         XCTAssertTrue(app.buttons["設定"].waitForExistence(timeout: 10))
@@ -22,10 +22,12 @@ final class sukitamagoUITests: XCTestCase {
         app.buttons["recommendedExperience"].tap()
         XCTAssertTrue(app.buttons["mission.start"].waitForExistence(timeout: 3))
         app.navigationBars.buttons.element(boundBy: 0).tap()
-        for title in ["さがす", "たまご", "きろく"] {
+        for title in ["さがす", "たまご"] {
             app.tabBars.buttons[title].tap()
             XCTAssertTrue(app.staticTexts["\(title)は準備中です"].exists)
         }
+        app.tabBars.buttons["きろく"].tap()
+        XCTAssertTrue(app.staticTexts["まだ、最初の一歩の前だね。"].waitForExistence(timeout: 5))
         app.tabBars.buttons["ホーム"].tap()
         app.swipeDown()
         let attachment = XCTAttachment(screenshot: app.screenshot())

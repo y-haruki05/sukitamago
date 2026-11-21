@@ -7,7 +7,7 @@ final class ExperienceReflectionUITests: XCTestCase {
         // Launch configuration tests can leave the shared Simulator in landscape.
         XCUIDevice.shared.orientation = .portrait
         let app = XCUIApplication()
-        app.launchArguments = ["-resetOnboardingForUITests"]
+        app.launchArguments = ["-experienceTestStore", UUID().uuidString, "-resetOnboardingForUITests"]
         app.launch()
         completeOnboarding(app)
         openMission(app)

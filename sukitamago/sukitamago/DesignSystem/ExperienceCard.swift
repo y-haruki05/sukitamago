@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SmallExperience: Hashable {
+    let id: String
     let title: String
     let genre: String
     let duration: String
@@ -8,6 +9,7 @@ struct SmallExperience: Hashable {
     let introduction: String
 
     static let first = SmallExperience(
+        id: "photo.nearby-beauty",
         title: "身近な『きれい』を撮ろう", genre: "写真", duration: "約3分",
         equipment: "スマートフォン",
         introduction: "あなたの周りにある、ちょっといいなと思ったものを探してみよう。")

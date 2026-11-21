@@ -10,33 +10,42 @@ import SwiftData
 
 @main
 struct sukitamagoApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    private let persistence: Result<(ExperiencePersistence, UserDefaults), Error>
 
     init() {
+        var testID: String?
         #if DEBUG
-        // UI tests can start from a deterministic first-launch state; no release hook.
-        if ProcessInfo.processInfo.arguments.contains("-resetOnboardingForUITests") {
-            UserDefaults.standard.removeObject(forKey: OnboardingStorage.completed)
-            UserDefaults.standard.removeObject(forKey: OnboardingStorage.mood)
+        let arguments = ProcessInfo.processInfo.arguments
+        if let index = arguments.firstIndex(of: "-experienceTestStore"), arguments.indices.contains(index + 1) {
+            testID = arguments[index + 1]
         }
         #endif
+        persistence = Result {
+            let defaults = try ExperiencePersistence.preferences(testID: testID)
+            let persistence = try ExperiencePersistence.make(testID: testID)
+            #if DEBUG
+            // Never reset the real preferences when a test-store argument is absent.
+            if testID != nil, arguments.contains("-resetOnboardingForUITests") {
+                defaults.removeObject(forKey: OnboardingStorage.completed)
+                defaults.removeObject(forKey: OnboardingStorage.mood)
+            }
+            #endif
+            return (persistence, defaults)
+        }
     }
 
     var body: some Scene {
         WindowGroup {
-            AppRootView()
+            switch persistence {
+            case .success(let (persistence, defaults)):
+                AppRootView()
+                    .defaultAppStorage(defaults)
+                    .modelContainer(persistence.container)
+                    .environment(\.experiencePhotos, persistence.photos)
+            case .failure:
+                ContentUnavailableView("記録を開けませんでした", systemImage: "externaldrive.badge.exclamationmark",
+                                       description: Text("空き容量などを確認して、アプリを起動し直してください。記録は削除されません。"))
+            }
         }
-        .modelContainer(sharedModelContainer)
     }
 }

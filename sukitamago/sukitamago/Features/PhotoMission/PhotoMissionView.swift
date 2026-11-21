@@ -51,7 +51,7 @@ struct PhotoMissionView: View {
                             }
                             else if state.phase == .preview { state.retake() }
                             else { dismiss() }
-                        }.frame(minHeight: 44)
+                        }.frame(minHeight: 44).disabled(state.isSaving)
                     }
                 }
             }
@@ -68,7 +68,7 @@ struct PhotoMissionView: View {
             guard let item else { return }
             load(item)
         }
-        .alert("写真についてのお知らせ", isPresented: Binding(
+        .alert("体験についてのお知らせ", isPresented: Binding(
             get: { state.notice != nil }, set: { if !$0 { state.notice = nil } }
         )) {
             if state.notice?.offersSettings == true {
@@ -162,7 +162,7 @@ struct PhotoMissionView: View {
                 }
             }
             photo(maxHeight: 160)
-            Text("写真と回答は、この体験中だけ表示されます。保存はされません。")
+            Text("写真と振り返りを保存しました。「きろく」で、いつでも見返せるよ。")
                 .font(.footnote).foregroundStyle(AppTheme.secondaryText)
             PrimaryButton(title: "ホームに戻る", action: onFinish)
                 .accessibilityIdentifier("mission.home")
@@ -179,7 +179,7 @@ struct PhotoMissionView: View {
     }
 
     private var temporaryNotice: some View {
-        Text("写真はこの体験中だけ表示されます。\nアプリや写真ライブラリには保存されません。")
+        Text("振り返りを終えると、写真をアプリ内に保存します。\n写真ライブラリには追加しません。")
             .font(.footnote).foregroundStyle(AppTheme.secondaryText)
     }
 

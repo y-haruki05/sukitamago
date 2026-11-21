@@ -47,7 +47,7 @@ struct PhotoMissionStateTests {
         #expect(state.phase == .ready)
     }
 
-    @Test func previewRetakeConfirmShareOneImage() {
+    @Test func previewRetakeConfirmShareOneImage() async throws {
         let state = PhotoMissionState()
         let photo = image
         #expect(state.beginLoading())
@@ -68,7 +68,7 @@ struct PhotoMissionStateTests {
         #expect(state.phase == .reflecting)
         #expect(state.reflection == nil)
         state.selectFeeling(.neutral)
-        state.finishReflection()
+        await state.finishReflection(using: try testRecordStore())
         #expect(state.phase == .completed)
         #expect(state.photo === photo)
         #expect(!state.beginPermissionRequest())

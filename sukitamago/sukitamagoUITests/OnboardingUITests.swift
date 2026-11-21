@@ -27,7 +27,7 @@ final class OnboardingUITests: XCTestCase {
     func testFirstLaunchSelectionBackPersistenceAndReset() {
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments = ["-resetOnboardingForUITests"]
+        app.launchArguments = ["-experienceTestStore", UUID().uuidString, "-resetOnboardingForUITests"]
         app.launch()
         XCTAssertFalse(app.tabBars.firstMatch.exists)
         tapOnboardingNext(app)
@@ -52,7 +52,7 @@ final class OnboardingUITests: XCTestCase {
 
         // An interrupted flow must restart at step 1, without a completion write.
         app.terminate()
-        app.launchArguments = []
+        app.launchArguments.removeAll { $0 == "-resetOnboardingForUITests" }
         app.launch()
         XCTAssertTrue(app.staticTexts["まだ知らない『好き』に、会いにいこう。"].waitForExistence(timeout: 5))
         tapOnboardingNext(app)

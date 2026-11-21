@@ -90,4 +90,9 @@ struct HomeView: View {
     }
 }
 
-#Preview { ContentView() }
+#Preview {
+    if let persistence = try? ExperiencePersistence.make(inMemory: true) {
+        ContentView().modelContainer(persistence.container)
+            .environment(\.experiencePhotos, persistence.photos)
+    }
+}
