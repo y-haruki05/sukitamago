@@ -22,10 +22,8 @@ final class sukitamagoUITests: XCTestCase {
         app.buttons["recommendedExperience"].tap()
         XCTAssertTrue(app.buttons["mission.start"].waitForExistence(timeout: 3))
         app.navigationBars.buttons.element(boundBy: 0).tap()
-        for title in ["さがす"] {
-            app.tabBars.buttons[title].tap()
-            XCTAssertTrue(app.staticTexts["\(title)は準備中です"].exists)
-        }
+        app.tabBars.buttons["さがす"].tap()
+        XCTAssertTrue(app.staticTexts["小さな『好き』を探そう"].waitForExistence(timeout: 5))
         app.tabBars.buttons["たまご"].tap()
         XCTAssertEqual(app.staticTexts["growth.stage"].label, "はじまり")
         app.tabBars.buttons["きろく"].tap()

@@ -18,7 +18,7 @@ struct AppRootView: View {
                 }
             }
         }
-        .environment(\.eggHasHatched, !hatchingStates.isEmpty)
+        .environment(\.eggHasHatched, hatchingStates.first?.pendingCharacterID != nil)
         .tint(AppTheme.outline)
         .foregroundStyle(AppTheme.text)
     }

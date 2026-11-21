@@ -18,6 +18,7 @@ final class PhotoMissionState {
     let experience: SmallExperience
     private(set) var selectedFeeling: ExperienceFeeling?
     private(set) var note = ""
+    private(set) var hatchedCharacterID: UUID?
     private(set) var reflection: ExperienceReflection?
     var notice: Notice?
 
@@ -47,7 +48,7 @@ final class PhotoMissionState {
         let result = ExperienceReflection(feeling: feeling, note: note)
         await Task.yield()
         do {
-            try store.save(id: sessionID, experience: experience, photo: photo, reflection: result)
+            hatchedCharacterID = try store.save(id: sessionID, experience: experience, photo: photo, reflection: result)
             reflection = result
             phase = .completed
         } catch {
@@ -58,7 +59,7 @@ final class PhotoMissionState {
     var isBusy: Bool { phase == .requestingPermission || phase == .capturing || phase == .loading }
 
     func beginPermissionRequest() -> Bool {
-        guard phase == .ready else { return false }
+        guard phase == .ready, experience.execution == .photo else { return false }
         phase = .requestingPermission
         return true
     }
@@ -77,7 +78,7 @@ final class PhotoMissionState {
     }
 
     func beginLoading() -> Bool {
-        guard phase == .ready else { return false }
+        guard phase == .ready, experience.execution == .photo else { return false }
         phase = .loading
         return true
     }

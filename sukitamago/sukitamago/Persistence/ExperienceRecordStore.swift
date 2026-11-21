@@ -16,15 +16,23 @@ final class ExperienceRecordStore {
         self.commit = commit
     }
 
+    @discardableResult
     func save(id: UUID, experience: SmallExperience, photo: UIImage,
-              reflection: ExperienceReflection, completedAt: Date = .now) throws {
+              reflection: ExperienceReflection, completedAt: Date = .now) throws -> UUID? {
         let context = try writingContext()
         // A session keeps the same UUID across retries and repeated completion actions.
-        if try context.fetch(FetchDescriptor<ExperienceRecord>(predicate: #Predicate { $0.id == id })).first != nil { return }
+        if try context.fetch(FetchDescriptor<ExperienceRecord>(predicate: #Predicate { $0.id == id })).first != nil {
+            return try context.fetch(FetchDescriptor<HatchedCharacter>()).first { $0.sourceRecordID == id }?.id
+        }
         let filename = try photos.save(photo, id: id)
         context.insert(ExperienceRecord(id: id, missionID: experience.id, missionTitle: experience.title,
                                         completedAt: completedAt, reflection: reflection, photoFilename: filename))
-        do { try commit(context) }
+        do {
+            let hatchedID = try EggHatchingStore.registerPhotoHatch(in: context, missionID: experience.id,
+                feeling: reflection.feeling, recordID: id, date: completedAt)
+            try commit(context)
+            return hatchedID
+        }
         catch {
             context.rollback()
             do { try photos.delete(filename) }

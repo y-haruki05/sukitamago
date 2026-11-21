@@ -7,20 +7,20 @@ struct ContentView: View {
     @Query private var records: [ExperienceRecord]
 
     private var growth: EggGrowth {
-        EggGrowthCalculator.calculate(recordIDs: records.map(\.id), hasFoundLike: !hatchingStates.isEmpty)
+        EggGrowthCalculator.calculate(recordIDs: records.map(\.id), hasFoundLike: hatchingStates.first?.pendingCharacterID != nil)
     }
     var body: some View {
         TabView(selection: $selection) {
             HomeView()
                 .tabItem { Label("ホーム", systemImage: "house.fill") }.tag(0)
-            PlaceholderView(title: "さがす", symbol: "safari", message: "あなたにぴったりの小さな体験を、\nここで見つけられるようになります。")
+            MissionDiscoveryView { selection = 0 }
                 .tabItem { Label("さがす", systemImage: "safari") }.tag(1)
-            EggGrowthView(growth: growth, onExplore: { selection = 0 })
+            EggGrowthView(growth: growth, eggID: hatchingStates.first?.currentEggID, onExplore: { selection = 0 })
                 .tabItem { Label("たまご", systemImage: "oval.portrait") }.tag(2)
             ExperienceHistoryView { selection = 0 }
                 .tabItem { Label("きろく", systemImage: "book.closed") }.tag(3)
         }
-        .environment(\.eggHasHatched, !hatchingStates.isEmpty)
+        .environment(\.eggHasHatched, hatchingStates.first?.pendingCharacterID != nil)
         .tint(AppTheme.outline)
         .foregroundStyle(AppTheme.text)
     }
