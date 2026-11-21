@@ -1,0 +1,565 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		F9E69B9C30B1DF6C001E8094 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9E69B8130B1DF6B001E8094 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F9E69B8830B1DF6B001E8094;
+			remoteInfo = sukitamago;
+		};
+		F9E69BA630B1DF6C001E8094 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9E69B8130B1DF6B001E8094 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F9E69B8830B1DF6B001E8094;
+			remoteInfo = sukitamago;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F9E69B8930B1DF6B001E8094 /* sukitamago.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sukitamago.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9E69B9B30B1DF6C001E8094 /* sukitamagoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sukitamagoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9E69BA530B1DF6C001E8094 /* sukitamagoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sukitamagoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F9E69B8B30B1DF6B001E8094 /* sukitamago */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = sukitamago;
+			sourceTree = "<group>";
+		};
+		F9E69B9E30B1DF6C001E8094 /* sukitamagoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = sukitamagoTests;
+			sourceTree = "<group>";
+		};
+		F9E69BA830B1DF6C001E8094 /* sukitamagoUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = sukitamagoUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F9E69B8630B1DF6B001E8094 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9E69B9830B1DF6C001E8094 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9E69BA230B1DF6C001E8094 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F9E69B8030B1DF6B001E8094 = {
+			isa = PBXGroup;
+			children = (
+				F9E69B8B30B1DF6B001E8094 /* sukitamago */,
+				F9E69B9E30B1DF6C001E8094 /* sukitamagoTests */,
+				F9E69BA830B1DF6C001E8094 /* sukitamagoUITests */,
+				F9E69B8A30B1DF6B001E8094 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F9E69B8A30B1DF6B001E8094 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F9E69B8930B1DF6B001E8094 /* sukitamago.app */,
+				F9E69B9B30B1DF6C001E8094 /* sukitamagoTests.xctest */,
+				F9E69BA530B1DF6C001E8094 /* sukitamagoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F9E69B8830B1DF6B001E8094 /* sukitamago */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F9E69BAF30B1DF6C001E8094 /* Build configuration list for PBXNativeTarget "sukitamago" */;
+			buildPhases = (
+				F9E69B8530B1DF6B001E8094 /* Sources */,
+				F9E69B8630B1DF6B001E8094 /* Frameworks */,
+				F9E69B8730B1DF6B001E8094 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F9E69B8B30B1DF6B001E8094 /* sukitamago */,
+			);
+			name = sukitamago;
+			packageProductDependencies = (
+			);
+			productName = sukitamago;
+			productReference = F9E69B8930B1DF6B001E8094 /* sukitamago.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F9E69B9A30B1DF6C001E8094 /* sukitamagoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F9E69BB230B1DF6C001E8094 /* Build configuration list for PBXNativeTarget "sukitamagoTests" */;
+			buildPhases = (
+				F9E69B9730B1DF6C001E8094 /* Sources */,
+				F9E69B9830B1DF6C001E8094 /* Frameworks */,
+				F9E69B9930B1DF6C001E8094 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F9E69B9D30B1DF6C001E8094 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F9E69B9E30B1DF6C001E8094 /* sukitamagoTests */,
+			);
+			name = sukitamagoTests;
+			packageProductDependencies = (
+			);
+			productName = sukitamagoTests;
+			productReference = F9E69B9B30B1DF6C001E8094 /* sukitamagoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F9E69BA430B1DF6C001E8094 /* sukitamagoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F9E69BB530B1DF6C001E8094 /* Build configuration list for PBXNativeTarget "sukitamagoUITests" */;
+			buildPhases = (
+				F9E69BA130B1DF6C001E8094 /* Sources */,
+				F9E69BA230B1DF6C001E8094 /* Frameworks */,
+				F9E69BA330B1DF6C001E8094 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F9E69BA730B1DF6C001E8094 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F9E69BA830B1DF6C001E8094 /* sukitamagoUITests */,
+			);
+			name = sukitamagoUITests;
+			packageProductDependencies = (
+			);
+			productName = sukitamagoUITests;
+			productReference = F9E69BA530B1DF6C001E8094 /* sukitamagoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F9E69B8130B1DF6B001E8094 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					F9E69B8830B1DF6B001E8094 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					F9E69B9A30B1DF6C001E8094 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = F9E69B8830B1DF6B001E8094;
+					};
+					F9E69BA430B1DF6C001E8094 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = F9E69B8830B1DF6B001E8094;
+					};
+				};
+			};
+			buildConfigurationList = F9E69B8430B1DF6B001E8094 /* Build configuration list for PBXProject "sukitamago" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F9E69B8030B1DF6B001E8094;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F9E69B8A30B1DF6B001E8094 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F9E69B8830B1DF6B001E8094 /* sukitamago */,
+				F9E69B9A30B1DF6C001E8094 /* sukitamagoTests */,
+				F9E69BA430B1DF6C001E8094 /* sukitamagoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F9E69B8730B1DF6B001E8094 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9E69B9930B1DF6C001E8094 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9E69BA330B1DF6C001E8094 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F9E69B8530B1DF6B001E8094 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9E69B9730B1DF6C001E8094 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9E69BA130B1DF6C001E8094 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F9E69B9D30B1DF6C001E8094 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F9E69B8830B1DF6B001E8094 /* sukitamago */;
+			targetProxy = F9E69B9C30B1DF6C001E8094 /* PBXContainerItemProxy */;
+		};
+		F9E69BA730B1DF6C001E8094 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F9E69B8830B1DF6B001E8094 /* sukitamago */;
+			targetProxy = F9E69BA630B1DF6C001E8094 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F9E69BAD30B1DF6C001E8094 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F9E69BAE30B1DF6C001E8094 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F9E69BB030B1DF6C001E8094 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"sukitamago/Preview Content\"";
+				DEVELOPMENT_TEAM = WPLHY6X3JQ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "すきたまご";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haruki.sukitamago;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F9E69BB130B1DF6C001E8094 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"sukitamago/Preview Content\"";
+				DEVELOPMENT_TEAM = WPLHY6X3JQ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "すきたまご";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haruki.sukitamago;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F9E69BB330B1DF6C001E8094 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WPLHY6X3JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haruki.sukitamagoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sukitamago.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/sukitamago";
+			};
+			name = Debug;
+		};
+		F9E69BB430B1DF6C001E8094 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WPLHY6X3JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haruki.sukitamagoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sukitamago.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/sukitamago";
+			};
+			name = Release;
+		};
+		F9E69BB630B1DF6C001E8094 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WPLHY6X3JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haruki.sukitamagoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = sukitamago;
+			};
+			name = Debug;
+		};
+		F9E69BB730B1DF6C001E8094 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WPLHY6X3JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haruki.sukitamagoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = sukitamago;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F9E69B8430B1DF6B001E8094 /* Build configuration list for PBXProject "sukitamago" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9E69BAD30B1DF6C001E8094 /* Debug */,
+				F9E69BAE30B1DF6C001E8094 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9E69BAF30B1DF6C001E8094 /* Build configuration list for PBXNativeTarget "sukitamago" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9E69BB030B1DF6C001E8094 /* Debug */,
+				F9E69BB130B1DF6C001E8094 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9E69BB230B1DF6C001E8094 /* Build configuration list for PBXNativeTarget "sukitamagoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9E69BB330B1DF6C001E8094 /* Debug */,
+				F9E69BB430B1DF6C001E8094 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9E69BB530B1DF6C001E8094 /* Build configuration list for PBXNativeTarget "sukitamagoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9E69BB630B1DF6C001E8094 /* Debug */,
+				F9E69BB730B1DF6C001E8094 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F9E69B8130B1DF6B001E8094 /* Project object */;
+}
